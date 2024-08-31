@@ -1,3 +1,4 @@
+import 'package:dzien_dobry/consts/paddings.dart';
 import 'package:dzien_dobry/presentation/widgets/plants/plants_panel.dart';
 import 'package:dzien_dobry/presentation/widgets/weather/weather_panel.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: MyPaddings.largeAll,
           child: Column(
             children: [
               Row(

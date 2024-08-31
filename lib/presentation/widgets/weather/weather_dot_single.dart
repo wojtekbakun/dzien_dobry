@@ -1,3 +1,5 @@
+import 'package:dzien_dobry/consts/paddings.dart';
+import 'package:dzien_dobry/consts/shapes.dart';
 import 'package:flutter/material.dart';
 
 class WeatherDotSingle extends StatelessWidget {
@@ -7,7 +9,7 @@ class WeatherDotSingle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: MyPaddings.weatherDotsHorizontal,
       child: Container(
         width: 24,
         height: 8,
@@ -16,7 +18,7 @@ class WeatherDotSingle extends StatelessWidget {
               ? Theme.of(context).indicatorColor
               : Theme.of(context).cardColor,
           shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: MyRadius.small,
         ),
       ),
     );

@@ -1,3 +1,5 @@
+import 'package:dzien_dobry/consts/paddings.dart';
+import 'package:dzien_dobry/consts/shapes.dart';
 import 'package:flutter/material.dart';
 
 class PlantsPanel extends StatelessWidget {
@@ -6,7 +8,7 @@ class PlantsPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 24.0),
+      padding: MyPaddings.onlyTop,
       child: Column(
         children: [
           Row(
@@ -28,9 +30,18 @@ class PlantsPanel extends StatelessWidget {
               const Expanded(
                 child: Row(),
               ),
-              IconButton(
-                icon: const Icon(Icons.add),
-                onPressed: () {},
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: MyRadius.medium,
+                  color: Theme.of(context).cardColor,
+                ),
+                child: Padding(
+                  padding: MyPaddings.smallAll,
+                  child: IconButton(
+                    icon: const Icon(Icons.add),
+                    onPressed: () {},
+                  ),
+                ),
               ),
             ],
           ),

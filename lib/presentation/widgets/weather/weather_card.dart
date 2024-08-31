@@ -1,3 +1,5 @@
+import 'package:dzien_dobry/consts/paddings.dart';
+import 'package:dzien_dobry/consts/shapes.dart';
 import 'package:flutter/material.dart';
 
 class WeatherCard extends StatelessWidget {
@@ -6,14 +8,12 @@ class WeatherCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        top: 24,
-      ),
+      padding: MyPaddings.onlyTop,
       child: Container(
         height: 124,
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: MyRadius.medium,
         ),
         child: const Row(
           children: [
