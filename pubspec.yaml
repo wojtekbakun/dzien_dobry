@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
@@ -26,3 +27,6 @@ flutter:
         - asset: assets/fonts/Roboto/Roboto-Italic.ttf
           style: italic
         - asset: assets/fonts/Roboto/Roboto-BoldItalic.ttf
+
+  assets:
+    - assets/images/pokrzywka.png

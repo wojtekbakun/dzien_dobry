@@ -10,21 +10,24 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
+        bottom: false,
         child: Padding(
           padding: MyPaddings.largeAll,
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Text(
-                    'Dzień dobry!',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                ],
-              ),
-              const WeatherPanel(),
-              const PlantsPanel(),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'Dzień dobry!',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ],
+                ),
+                const WeatherPanel(),
+                const PlantsPanel(),
+              ],
+            ),
           ),
         ),
       ),

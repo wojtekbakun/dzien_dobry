@@ -22,7 +22,10 @@ class WeatherPanel extends StatelessWidget {
               const WeatherDots(),
             ],
           ),
-          const WeatherCard(),
+          GestureDetector(
+            onHorizontalDragEnd: (details) {},
+            child: WeatherCard(),
+          )
         ],
       ),
     );

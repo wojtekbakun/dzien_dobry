@@ -1,9 +1,15 @@
 import 'package:dzien_dobry/consts/colors.dart';
+import 'package:dzien_dobry/data/providers/providers_init.dart';
 import 'package:dzien_dobry/presentation/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MainApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(
+    const ProvidersInit(
+      child: MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {

@@ -1,5 +1,6 @@
 import 'package:dzien_dobry/consts/paddings.dart';
 import 'package:dzien_dobry/consts/shapes.dart';
+import 'package:dzien_dobry/presentation/widgets/plants/single_plant_container.dart';
 import 'package:flutter/material.dart';
 
 class PlantsPanel extends StatelessWidget {
@@ -30,20 +31,41 @@ class PlantsPanel extends StatelessWidget {
               const Expanded(
                 child: Row(),
               ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: MyRadius.medium,
-                  color: Theme.of(context).cardColor,
-                ),
-                child: Padding(
-                  padding: MyPaddings.smallAll,
-                  child: IconButton(
-                    icon: const Icon(Icons.add),
-                    onPressed: () {},
+              ElevatedButton(
+                onPressed: () {},
+                style: ButtonStyle(
+                  shape: WidgetStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: MyRadius.small,
+                    ),
                   ),
+                  backgroundColor: WidgetStateProperty.all(
+                    Theme.of(context).cardColor,
+                  ),
+                ),
+                child: const Padding(
+                  padding: MyPaddings.smallAll,
+                  child: Icon(Icons.add),
                 ),
               ),
             ],
+          ),
+          Padding(
+            padding: MyPaddings.onlyTop,
+            child: GridView.builder(
+              itemCount: 6,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: MyPaddings.medium,
+                  mainAxisSpacing: MyPaddings.medium),
+              itemBuilder: (context, index) => const SinglePlantContainer(
+                name: 'Belmondo',
+                image: DecorationImage(
+                    image: AssetImage('assets/images/pokrzywka.png')),
+              ),
+            ),
           ),
         ],
       ),
