@@ -11,6 +11,8 @@ class MyPaddings {
 
   static const EdgeInsets symmetricHorizontal =
       EdgeInsets.symmetric(horizontal: large);
+  static const EdgeInsets symmetricVertical =
+      EdgeInsets.symmetric(vertical: medium, horizontal: small);
   static const EdgeInsets onlyTop = EdgeInsets.only(top: large);
 
   static const EdgeInsets weatherDotsHorizontal =

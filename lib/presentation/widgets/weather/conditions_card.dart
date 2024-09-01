@@ -4,8 +4,10 @@ import 'package:dzien_dobry/data/providers/screen_dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class WeatherCard extends StatelessWidget {
-  const WeatherCard({super.key});
+class ConditionsCard extends StatelessWidget {
+  final String text;
+  final IconData icon;
+  const ConditionsCard({super.key, required this.text, required this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -19,17 +21,20 @@ class WeatherCard extends StatelessWidget {
           color: Theme.of(context).cardColor,
           borderRadius: MyRadius.medium,
         ),
-        child: const Row(
+        child: Row(
           children: [
             Flexible(
               flex: 1,
               child: Center(
-                child: Icon(Icons.abc),
+                child: Icon(icon),
               ),
             ),
             Flexible(
-              flex: 2,
-              child: Text('pogoda'),
+              flex: 3,
+              child: Text(
+                text,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
             )
           ],
         ),

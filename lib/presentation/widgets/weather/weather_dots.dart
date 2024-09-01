@@ -2,24 +2,22 @@ import 'package:dzien_dobry/presentation/widgets/weather/weather_dot_single.dart
 import 'package:flutter/material.dart';
 
 class WeatherDots extends StatelessWidget {
-  const WeatherDots({super.key});
+  final int clickedIndex;
+  final int howManyDots;
+  const WeatherDots({
+    super.key,
+    required this.howManyDots,
+    required this.clickedIndex,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       children: [
-        WeatherDotSingle(
-          isActive: false,
-        ),
-        WeatherDotSingle(
-          isActive: true,
-        ),
-        WeatherDotSingle(
-          isActive: false,
-        ),
-        WeatherDotSingle(
-          isActive: false,
-        ),
+        for (int i = 0; i < howManyDots; i++)
+          WeatherDotSingle(
+            isActive: i == clickedIndex,
+          ),
       ],
     );
   }
