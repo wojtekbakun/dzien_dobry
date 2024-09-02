@@ -1,4 +1,5 @@
 import 'package:dzien_dobry/consts/paddings.dart';
+import 'package:dzien_dobry/presentation/widgets/plants/to_do_card.dart';
 import 'package:flutter/material.dart';
 
 class ToDoPanel extends StatelessWidget {
@@ -9,26 +10,33 @@ class ToDoPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: MyPaddings.onlyTop,
-      child: SizedBox(
-        height: 100,
-        child: Column(
-          children: [
-            const Text('Wymagane działania:'),
-            Flexible(
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemCount: toDos.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(toDos[index]),
-                  );
-                },
-              ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: MyPaddings.symmetricHorizontal,
+            child: Text(
+              'Wymagane działania:',
+              style: Theme.of(context).textTheme.titleMedium,
             ),
-          ],
-        ),
+          ),
+          ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxHeight: 64,
+            ),
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              itemCount: toDos.length,
+              itemBuilder: (context, index) {
+                return ToDoCard(
+                  toDo: toDos[index],
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

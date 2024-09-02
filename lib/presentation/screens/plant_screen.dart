@@ -12,35 +12,40 @@ class PlantScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        bottom: false,
-        child: Padding(
-          padding: MyPaddings.symmetricHorizontal,
+        child: SingleChildScrollView(
           child: Column(
             children: [
-              Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                  const Padding(
-                    padding: MyPaddings.weatherDotsHorizontal,
-                    child: Text('Powrót'),
-                  ),
-                ],
-              ),
-              // PLant Image Card
-              const PlantImageCard(
-                plantName: 'Pokrzywka',
-                secondName: 'Judasus belmondus',
-                image: AssetImage(
-                  'assets/images/pokrzywka.png',
+              Padding(
+                padding: MyPaddings.symmetricHorizontal,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.arrow_back),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                        const Padding(
+                          padding: MyPaddings.weatherDotsHorizontal,
+                          child: Text('Powrót'),
+                        ),
+                      ],
+                    ),
+                    // PLant Image Card
+                    const PlantImageCard(
+                      plantName: 'Pokrzywka',
+                      secondName: 'Judasus belmondus',
+                      image: AssetImage(
+                        'assets/images/pokrzywka.png',
+                      ),
+                    ),
+                    // Plant description card
+                    const PlantDescription(
+                      description:
+                          'Pokrzywki to rośliny, które najlepiej wytępić. Warto tez podlewać je, wtedy będą rosły jak szalone.',
+                    ),
+                  ],
                 ),
-              ),
-              // Plant description card
-              const PlantDescription(
-                description:
-                    'Pokrzywki to rośliny, które najlepiej wytępić. Warto tez podlewać je, wtedy będą rosły jak szalone.',
               ),
               const ToDoPanel(
                 toDos: [
