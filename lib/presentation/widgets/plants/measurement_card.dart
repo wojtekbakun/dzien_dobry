@@ -1,4 +1,5 @@
 import 'package:dzien_dobry/consts/paddings.dart';
+import 'package:dzien_dobry/consts/shapes.dart';
 import 'package:flutter/material.dart';
 
 class MeasurementCard extends StatelessWidget {
@@ -21,7 +22,7 @@ class MeasurementCard extends StatelessWidget {
       decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.circular(12)),
+          borderRadius: MyRadius.medium),
       child: Container(
         margin: MyPaddings.smallAll,
         child: Column(
@@ -37,6 +38,7 @@ class MeasurementCard extends StatelessWidget {
                   padding: MyPaddings.smallAll,
                   child: Icon(
                     icon,
+                    size: 34,
                     color: Theme.of(context).indicatorColor,
                   ),
                 )),
@@ -45,7 +47,7 @@ class MeasurementCard extends StatelessWidget {
               style: Theme.of(context).textTheme.bodySmall,
             ),
             Text(measurementValue,
-                style: Theme.of(context).textTheme.titleMedium),
+                style: Theme.of(context).textTheme.titleLarge),
           ],
         ),
       ),

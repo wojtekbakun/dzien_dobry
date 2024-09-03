@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^6.1.2
+  http:
 
 dev_dependencies:
   flutter_test:
