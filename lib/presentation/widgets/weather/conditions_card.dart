@@ -21,22 +21,25 @@ class ConditionsCard extends StatelessWidget {
           color: Theme.of(context).cardColor,
           borderRadius: MyRadius.medium,
         ),
-        child: Row(
-          children: [
-            Flexible(
-              flex: 1,
-              child: Center(
-                child: Icon(icon),
+        child: Padding(
+          padding: MyPaddings.weatherDotsHorizontal,
+          child: Row(
+            children: [
+              Flexible(
+                flex: 1,
+                child: Center(
+                  child: Icon(icon),
+                ),
               ),
-            ),
-            Flexible(
-              flex: 3,
-              child: Text(
-                text,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            )
-          ],
+              Flexible(
+                flex: 4,
+                child: Text(
+                  text,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

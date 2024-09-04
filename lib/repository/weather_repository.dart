@@ -1,12 +1,12 @@
 import 'package:dzien_dobry/models/weather.dart';
-import 'package:dzien_dobry/service/weather_service.dart';
+import 'package:dzien_dobry/service/api_service.dart';
 
 class WeatherRepository {
-  final WeatherService _weatherService;
+  final ApiService _weatherService;
 
   WeatherRepository(this._weatherService);
 
   Future<Weather> getWeather() async {
-    return _weatherService.getWeather();
+    return _weatherService.fetchWeather();
   }
 }

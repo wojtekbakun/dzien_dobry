@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Weather {
   String temperature;
   String air;
@@ -12,11 +14,23 @@ class Weather {
   });
 
   factory Weather.fromJson(Map<String, dynamic> json) {
-    return Weather(
-      temperature: json['temperature'],
-      air: json['air'],
-      specialConditions: json['specialConditions'],
-      clothes: json['clothes'],
-    );
+    Map<String, dynamic> weatherData = json['data'];
+    debugPrint(weatherData.toString());
+    debugPrint(weatherData['temperature']);
+    return switch (weatherData) {
+      {
+        'temperature': String temperature,
+        'air': String air,
+        'special_conditions': String specialConditions,
+        'clothes': String clothes,
+      } =>
+        Weather(
+          temperature: temperature,
+          air: air,
+          specialConditions: specialConditions,
+          clothes: clothes,
+        ),
+      _ => throw const FormatException('Failed to load Weather Conditions')
+    };
   }
 }

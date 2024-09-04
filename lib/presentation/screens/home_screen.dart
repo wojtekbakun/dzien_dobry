@@ -1,9 +1,11 @@
 import 'package:dzien_dobry/consts/paddings.dart';
+import 'package:dzien_dobry/models/plant.dart';
 import 'package:dzien_dobry/models/weather.dart';
 import 'package:dzien_dobry/presentation/widgets/plants/plants_panel.dart';
 import 'package:dzien_dobry/presentation/widgets/weather/weather_panel.dart';
+import 'package:dzien_dobry/repository/plant_repository.dart';
 import 'package:dzien_dobry/repository/weather_repository.dart';
-import 'package:dzien_dobry/service/weather_service.dart';
+import 'package:dzien_dobry/service/api_service.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,18 +16,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late Future<Weather> futureWeatherConditions;
+
+  @override
+  void initState() {
+    super.initState();
+    futureWeatherConditions =
+        WeatherRepository(ApiService(baseUrl: 'http://127.0.0.1:5000'))
+            .getWeather();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final weatherRepo =
-        WeatherRepository(WeatherService(baseUrl: "http://localhost:4000"));
     return Scaffold(
       body: SafeArea(
         bottom: false,
         child: FutureBuilder<Weather>(
-          future: weatherRepo.getWeather(),
-          builder: (context, snapshot) {
-            debugPrint('snapshot: $snapshot');
-            if (snapshot.connectionState == ConnectionState.done) {
+          future: futureWeatherConditions,
+          builder: (context, weatherConditions) {
+            if (weatherConditions.hasData) {
               return Padding(
                 padding: MyPaddings.largeAll,
                 child: SingleChildScrollView(
@@ -39,23 +48,20 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ],
                       ),
-                      const WeatherPanel(),
+                      WeatherPanel(
+                        weatherConditions: weatherConditions.data!,
+                      ),
                       const PlantsPanel(),
                     ],
                   ),
                 ),
               );
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else if (!snapshot.hasData) {
-              return const Center(child: Text('No data available'));
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: Text('Waiting for data'));
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
+            } else if (weatherConditions.hasError) {
+              return Center(
+                child: Text('error: ${weatherConditions.error}'),
               );
             }
+            return const Center(child: CircularProgressIndicator());
           },
         ),
       ),
