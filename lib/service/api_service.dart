@@ -30,4 +30,17 @@ class ApiService {
       throw Exception('Failed to load plants');
     }
   }
+
+  Future<void> addPlant(String name) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/plants'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{'id': name}),
+    );
+    if (response.statusCode != 200) {
+      throw Exception('Failed to add plant');
+    }
+  }
 }

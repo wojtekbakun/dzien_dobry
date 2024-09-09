@@ -1,9 +1,7 @@
 import 'package:dzien_dobry/consts/paddings.dart';
-import 'package:dzien_dobry/models/plant.dart';
 import 'package:dzien_dobry/models/weather.dart';
 import 'package:dzien_dobry/presentation/widgets/plants/plants_panel.dart';
 import 'package:dzien_dobry/presentation/widgets/weather/weather_panel.dart';
-import 'package:dzien_dobry/repository/plant_repository.dart';
 import 'package:dzien_dobry/repository/weather_repository.dart';
 import 'package:dzien_dobry/service/api_service.dart';
 import 'package:flutter/material.dart';

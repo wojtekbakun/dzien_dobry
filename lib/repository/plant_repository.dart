@@ -9,4 +9,8 @@ class PlantRepository {
   Future<List<Plant>> getPlantData() async {
     return apiService.fetchPlants();
   }
+
+  Future<void> addPlant(String name) async {
+    return apiService.addPlant(name);
+  }
 }

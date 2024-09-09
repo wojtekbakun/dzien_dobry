@@ -53,7 +53,14 @@ class _PlantsPanelState extends State<PlantsPanel> {
                       controller.text); // Zwrócenie tekstu i zamknięcie dialogu
                 },
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await PlantRepository(
+                            ApiService(baseUrl: 'http://127.0.0.1:5000'))
+                        .addPlant('name');
+                    if (context.mounted) {
+                      Navigator.of(context).pop();
+                    }
+                  },
                   child: const Text('OK'),
                 )),
           ],
