@@ -3,7 +3,6 @@ import 'package:dzien_dobry/data/providers/providers_init.dart';
 import 'package:dzien_dobry/presentation/screens/home_screen.dart';
 import 'package:dzien_dobry/presentation/screens/plant_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

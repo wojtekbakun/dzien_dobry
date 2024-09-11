@@ -9,7 +9,7 @@ class InputDialog {
     TextEditingController controller = TextEditingController();
     File image = File('');
 
-    void _chooseAndUploadImage() async {
+    void chooseAndUploadImage() async {
       var xImage = await MyImagePicker().pickImageFromGallery();
       if (xImage != null) {
         image = File(xImage.path);
@@ -33,7 +33,7 @@ class InputDialog {
               ),
               TextButton(
                   onPressed: () {
-                    _chooseAndUploadImage();
+                    chooseAndUploadImage();
                   },
                   child: Text('Dodaj fotkę roślinki')),
             ],
@@ -55,7 +55,7 @@ class InputDialog {
                     await PlantRepository(
                             ApiService(baseUrl: 'http://127.0.0.1:5000'))
                         .addPlant(
-                      'belmondzial',
+                      controller.text,
                       image,
                     );
                     if (context.mounted) {

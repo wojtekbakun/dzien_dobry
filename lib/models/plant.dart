@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 class Plant {
-  String? name;
-  Uint8List? imageData;
-  Map<String, dynamic>? data;
+  String name;
+  Uint8List imageData;
+  Map<String, dynamic> data;
 
   Plant({
     required this.name,
@@ -15,16 +15,16 @@ class Plant {
   factory Plant.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {
-        'id': String? name,
-        'data': Map<String, dynamic>? data,
-        'image': String? imageData,
+        'id': String name,
+        'data': Map<String, dynamic> data,
+        'image': String imageData,
       } =>
         Plant(
           name: name,
-          imageData: base64Decode(imageData ?? ''),
+          imageData: base64Decode(imageData),
           data: data,
         ),
-      _ => throw FormatException('Failed to load Plants'),
+      _ => throw const FormatException('Failed to load Plants'),
     };
   }
 

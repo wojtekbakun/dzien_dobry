@@ -3,13 +3,13 @@ import 'package:dzien_dobry/consts/shapes.dart';
 import 'package:flutter/material.dart';
 
 class MeasurementCard extends StatelessWidget {
-  final String measurementName;
-  final String measurementValue;
+  final String measurement;
+  final List measurementType;
   final IconData icon;
   const MeasurementCard({
     super.key,
-    required this.measurementName,
-    required this.measurementValue,
+    required this.measurement,
+    required this.measurementType,
     required this.icon,
   });
 
@@ -43,11 +43,10 @@ class MeasurementCard extends StatelessWidget {
                   ),
                 )),
             Text(
-              measurementName,
+              measurementType[1],
               style: Theme.of(context).textTheme.bodySmall,
             ),
-            Text(measurementValue,
-                style: Theme.of(context).textTheme.titleLarge),
+            Text(measurement, style: Theme.of(context).textTheme.titleLarge),
           ],
         ),
       ),

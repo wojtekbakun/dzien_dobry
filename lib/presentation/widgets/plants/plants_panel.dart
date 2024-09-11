@@ -88,6 +88,7 @@ class _PlantsPanelState extends State<PlantsPanel> {
                               crossAxisSpacing: MyPaddings.medium,
                               mainAxisSpacing: MyPaddings.medium),
                       itemBuilder: (context, index) => SinglePlantContainer(
+                        plant: plant.data![index],
                         name: plant.data?[index].name ?? 'No name',
                         image: DecorationImage(
                           image: Image.memory(

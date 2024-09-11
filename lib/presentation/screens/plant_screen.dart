@@ -1,4 +1,5 @@
 import 'package:dzien_dobry/consts/paddings.dart';
+import 'package:dzien_dobry/models/plant.dart';
 import 'package:dzien_dobry/presentation/widgets/plants/monitoring_device_data.dart';
 import 'package:dzien_dobry/presentation/widgets/plants/plant_description.dart';
 import 'package:dzien_dobry/presentation/widgets/plants/plant_image_card.dart';
@@ -6,7 +7,8 @@ import 'package:dzien_dobry/presentation/widgets/plants/to_do_panel.dart';
 import 'package:flutter/material.dart';
 
 class PlantScreen extends StatelessWidget {
-  const PlantScreen({super.key});
+  final Plant? plant;
+  const PlantScreen({super.key, this.plant});
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +34,11 @@ class PlantScreen extends StatelessWidget {
                       ],
                     ),
                     // PLant Image Card
-                    const PlantImageCard(
-                      plantName: 'Pokrzywka',
+                    PlantImageCard(
+                      plantName: plant!.name[0].toUpperCase() +
+                          plant!.name.substring(1),
                       secondName: 'Judasus belmondus',
-                      image: AssetImage(
-                        'assets/images/pokrzywka.png',
-                      ),
+                      image: MemoryImage(plant!.imageData),
                     ),
                     // Plant description card
                     const PlantDescription(
@@ -61,7 +62,7 @@ class PlantScreen extends StatelessWidget {
                   'Zabawa'
                 ],
               ),
-              MonitoringDeviceData(),
+              MonitoringDeviceData(sensorData: plant!.data),
             ],
           ),
         ),

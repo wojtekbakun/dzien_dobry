@@ -1,17 +1,26 @@
 import 'package:dzien_dobry/consts/paddings.dart';
 import 'package:dzien_dobry/consts/shapes.dart';
+import 'package:dzien_dobry/models/plant.dart';
+import 'package:dzien_dobry/presentation/screens/plant_screen.dart';
 import 'package:flutter/material.dart';
 
 class SinglePlantContainer extends StatelessWidget {
   final String name;
   final DecorationImage image;
+  final Plant plant;
   const SinglePlantContainer(
-      {super.key, required this.name, required this.image});
+      {super.key,
+      required this.name,
+      required this.image,
+      required this.plant});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, '/plant'),
+      onTap: () =>
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return PlantScreen(plant: plant);
+      })),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: MyRadius.medium,

@@ -18,7 +18,10 @@ class ToDoCard extends StatelessWidget {
           ),
           child: Padding(
             padding: MyPaddings.mediumAll,
-            child: Text(toDo),
+            child: Text(
+              toDo,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
           )),
     );
   }
