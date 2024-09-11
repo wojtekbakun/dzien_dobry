@@ -1,6 +1,9 @@
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:dzien_dobry/consts/paddings.dart';
 import 'package:dzien_dobry/consts/shapes.dart';
 import 'package:dzien_dobry/models/plant.dart';
+import 'package:dzien_dobry/presentation/widgets/plants/input_dialog.dart';
 import 'package:dzien_dobry/presentation/widgets/plants/single_plant_container.dart';
 import 'package:dzien_dobry/repository/plant_repository.dart';
 import 'package:dzien_dobry/service/api_service.dart';
@@ -14,7 +17,6 @@ class PlantsPanel extends StatefulWidget {
 }
 
 class _PlantsPanelState extends State<PlantsPanel> {
-  String _inputText = '';
   late Future<List<Plant>> futurePlant;
 
   @override
@@ -22,57 +24,6 @@ class _PlantsPanelState extends State<PlantsPanel> {
     super.initState();
     futurePlant = PlantRepository(ApiService(baseUrl: 'http://127.0.0.1:5000'))
         .getPlantData();
-  }
-
-  Future<void> _showInputDialog() async {
-    TextEditingController controller = TextEditingController();
-
-    @override
-    final result = await showDialog<String>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Nadaj roślince nazwę',
-              style: Theme.of(context).textTheme.titleSmall),
-          content: TextField(
-            controller: controller,
-            decoration: InputDecoration(
-                hintText: "Np. belmondo",
-                hintStyle: Theme.of(context).textTheme.labelSmall),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Anulowanie i zamknięcie dialogu
-              },
-              child: const Text('Powrót'),
-            ),
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(
-                      controller.text); // Zwrócenie tekstu i zamknięcie dialogu
-                },
-                child: TextButton(
-                  onPressed: () async {
-                    await PlantRepository(
-                            ApiService(baseUrl: 'http://127.0.0.1:5000'))
-                        .addPlant('name');
-                    if (context.mounted) {
-                      Navigator.of(context).pop();
-                    }
-                  },
-                  child: const Text('OK'),
-                )),
-          ],
-        );
-      },
-    );
-
-    if (result != null && result.isNotEmpty) {
-      setState(() {
-        _inputText = result;
-      });
-    }
   }
 
   @override
@@ -96,7 +47,7 @@ class _PlantsPanelState extends State<PlantsPanel> {
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                           Text(
-                            'Wszystkie są zadowolone!}',
+                            'Wszystkie są zadowolone!',
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
                         ],
@@ -105,7 +56,7 @@ class _PlantsPanelState extends State<PlantsPanel> {
                         child: Row(),
                       ),
                       ElevatedButton(
-                        onPressed: _showInputDialog,
+                        onPressed: () => InputDialog().showInputDialog(context),
                         style: ButtonStyle(
                           shape: WidgetStateProperty.all(
                             RoundedRectangleBorder(
@@ -118,7 +69,9 @@ class _PlantsPanelState extends State<PlantsPanel> {
                         ),
                         child: const Padding(
                           padding: MyPaddings.smallAll,
-                          child: Icon(Icons.add),
+                          child: Icon(
+                            Icons.add,
+                          ),
                         ),
                       ),
                     ],
@@ -137,13 +90,18 @@ class _PlantsPanelState extends State<PlantsPanel> {
                       itemBuilder: (context, index) => SinglePlantContainer(
                         name: plant.data?[index].name ?? 'No name',
                         image: DecorationImage(
-                            image: AssetImage('assets/images/pokrzywka.png')),
+                          image: Image.memory(
+                            plant.data?[index].imageData ?? Uint8List(0),
+                            fit: BoxFit.cover,
+                          ).image,
+                        ),
                       ),
                     ),
                   ),
                 ],
               );
             } else if (plant.hasError) {
+              debugPrint(plant.toString());
               return Center(
                 child: Text('error: ${plant.error}'),
               );

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:dzien_dobry/models/plant.dart';
 import 'package:dzien_dobry/models/weather.dart';
 import 'package:flutter/material.dart';
@@ -27,20 +28,27 @@ class ApiService {
       List<dynamic> jsonList = jsonDecode(response.body);
       return Plant.fromJsonList(jsonList);
     } else {
-      throw Exception('Failed to load plants');
+      throw Exception('Failed to load plants: ${response.statusCode}');
     }
   }
 
-  Future<void> addPlant(String name) async {
-    final response = await http.post(
-      Uri.parse('$baseUrl/plants'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
+  Future<void> addPlant(String name, File imageFile) async {
+    var request = http.MultipartRequest('POST', Uri.parse('$baseUrl/plants'));
+    request.files
+        .add(await http.MultipartFile.fromPath('image', imageFile.path));
+    request.fields['id'] = name;
+    request.headers.addAll(
+      <String, String>{
+        'Content-Type': 'multipart/form-data',
       },
-      body: jsonEncode(<String, String>{'id': name}),
     );
-    if (response.statusCode != 200) {
-      throw Exception('Failed to add plant');
+
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      debugPrint('Plant added');
+    } else {
+      throw Exception('Failed to add plant: ${response.statusCode}');
     }
   }
 }

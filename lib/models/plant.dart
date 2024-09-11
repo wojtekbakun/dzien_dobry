@@ -1,27 +1,30 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 class Plant {
-  String name;
-  String photo;
-  Map<String, dynamic> data;
+  String? name;
+  Uint8List? imageData;
+  Map<String, dynamic>? data;
 
   Plant({
     required this.name,
-    required this.photo,
+    required this.imageData,
     required this.data,
   });
 
   factory Plant.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {
-        'id': String name,
-        'photo': String photo,
-        'data': Map<String, dynamic> data,
+        'id': String? name,
+        'data': Map<String, dynamic>? data,
+        'image': String? imageData,
       } =>
         Plant(
           name: name,
-          photo: photo,
+          imageData: base64Decode(imageData ?? ''),
           data: data,
         ),
-      _ => throw const FormatException('Failed to load Plants')
+      _ => throw FormatException('Failed to load Plants'),
     };
   }
 
