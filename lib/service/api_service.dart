@@ -23,7 +23,7 @@ class ApiService {
   }
 
   Future<List<Plant>> fetchPlants() async {
-    final response = await http.get(Uri.parse('$baseUrl/plants/belmondo'));
+    final response = await http.get(Uri.parse('$baseUrl/plants'));
     if (response.statusCode == 200) {
       List<dynamic> jsonList = jsonDecode(response.body);
       return Plant.fromJsonList(jsonList);
@@ -32,7 +32,7 @@ class ApiService {
     }
   }
 
-  Future<void> addPlant(String name, File imageFile) async {
+  Future<http.StreamedResponse> addPlant(String name, File imageFile) async {
     var request = http.MultipartRequest('POST', Uri.parse('$baseUrl/plants'));
     request.files
         .add(await http.MultipartFile.fromPath('image', imageFile.path));
@@ -47,6 +47,7 @@ class ApiService {
 
     if (response.statusCode == 200) {
       debugPrint('Plant added');
+      return response;
     } else {
       throw Exception('Failed to add plant: ${response.statusCode}');
     }

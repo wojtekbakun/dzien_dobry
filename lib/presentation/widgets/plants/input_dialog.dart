@@ -35,7 +35,7 @@ class InputDialog {
                   onPressed: () {
                     chooseAndUploadImage();
                   },
-                  child: Text('Dodaj fotkę roślinki')),
+                  child: const Text('Dodaj fotkę roślinki')),
             ],
           ),
           actions: <Widget>[
@@ -57,10 +57,13 @@ class InputDialog {
                         .addPlant(
                       controller.text,
                       image,
-                    );
-                    if (context.mounted) {
-                      Navigator.of(context).pop();
-                    }
+                    )
+                        .whenComplete(() {
+                      if (context.mounted) {
+                        Navigator.of(context).pop();
+                        debugPrint('Plant added, dialog closed');
+                      }
+                    });
                   },
                   child: const Text('OK'),
                 )),

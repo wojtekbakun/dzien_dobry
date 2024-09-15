@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:dzien_dobry/consts/paddings.dart';
 import 'package:dzien_dobry/consts/shapes.dart';
@@ -78,26 +77,35 @@ class _PlantsPanelState extends State<PlantsPanel> {
                   ),
                   Padding(
                     padding: MyPaddings.onlyTop,
-                    child: GridView.builder(
-                      itemCount: plant.data?.length,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: MyPaddings.medium,
-                              mainAxisSpacing: MyPaddings.medium),
-                      itemBuilder: (context, index) => SinglePlantContainer(
-                        plant: plant.data![index],
-                        name: plant.data?[index].name ?? 'No name',
-                        image: DecorationImage(
-                          image: Image.memory(
-                            plant.data?[index].imageData ?? Uint8List(0),
-                            fit: BoxFit.cover,
-                          ).image,
-                        ),
-                      ),
-                    ),
+                    child: plant.data!.isEmpty
+                        ? Row(
+                            children: [
+                              Text('Brak roślin',
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium),
+                            ],
+                          )
+                        : GridView.builder(
+                            itemCount: plant.data?.length,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: MyPaddings.medium,
+                                    mainAxisSpacing: MyPaddings.medium),
+                            itemBuilder: (context, index) =>
+                                SinglePlantContainer(
+                              plant: plant.data![index],
+                              name: plant.data?[index].name ?? 'No name',
+                              image: DecorationImage(
+                                image: Image.memory(
+                                  plant.data?[index].imageData ?? Uint8List(0),
+                                  fit: BoxFit.cover,
+                                ).image,
+                              ),
+                            ),
+                          ),
                   ),
                 ],
               );

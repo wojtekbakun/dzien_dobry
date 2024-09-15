@@ -48,18 +48,9 @@ class PlantScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const ToDoPanel(
-                toDos: [
-                  'Podlanie',
-                  'Kichanie',
-                  'Zabawa',
-                  'Zabawa',
-                  'Zabawa',
-                  'Podlanie',
-                  'Kichanie',
-                  'Zabawa',
-                  'Zabawa',
-                  'Zabawa'
+              Row(
+                children: [
+                  ToDoPanel(toDos: plant!.toDos.toString().split(',')),
                 ],
               ),
               MonitoringDeviceData(sensorData: plant!.data),
