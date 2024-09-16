@@ -21,7 +21,7 @@ class _PlantsPanelState extends State<PlantsPanel> {
   @override
   void initState() {
     super.initState();
-    futurePlant = PlantRepository(ApiService(baseUrl: 'http://127.0.0.1:5000'))
+    futurePlant = PlantRepository(ApiService(baseUrl: 'http://localhost:8080'))
         .getPlantData();
   }
 

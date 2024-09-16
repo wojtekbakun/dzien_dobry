@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     futureWeatherConditions =
-        WeatherRepository(ApiService(baseUrl: 'http://127.0.0.1:5000'))
+        WeatherRepository(ApiService(baseUrl: 'http://localhost:8080'))
             .getWeather();
   }
 

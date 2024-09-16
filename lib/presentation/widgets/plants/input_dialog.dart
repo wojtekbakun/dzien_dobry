@@ -53,7 +53,7 @@ class InputDialog {
                 child: TextButton(
                   onPressed: () async {
                     await PlantRepository(
-                            ApiService(baseUrl: 'http://127.0.0.1:5000'))
+                            ApiService(baseUrl: 'http://localhost:8080'))
                         .addPlant(
                       controller.text,
                       image,

@@ -6,24 +6,24 @@ import 'package:flutter/material.dart';
 
 List<Map<String, dynamic>> weatherData = [
   {
-    'icon': Icons.wb_sunny,
+    'icon': Icons.thermostat,
   },
   {
     'icon': Icons.air,
   },
   {
-    'icon': Icons.space_bar,
+    'icon': Icons.cloud,
   },
-  {
-    'icon': Icons.filter_tilt_shift_rounded,
-  },
+  // {
+  //   'icon': Icons.filter_tilt_shift_rounded,
+  // },
 ];
 
 enum WeatherField {
   temperature,
   air,
   specialConditions,
-  clothes,
+  // clothes,
 }
 
 class WeatherPanel extends StatefulWidget {
@@ -52,8 +52,8 @@ class _WeatherPanelState extends State<WeatherPanel> {
         return widget.weatherConditions.air;
       case WeatherField.specialConditions:
         return widget.weatherConditions.specialConditions;
-      case WeatherField.clothes:
-        return widget.weatherConditions.clothes;
+      // case WeatherField.clothes:
+      //   return widget.weatherConditions.clothes;
     }
   }
 
@@ -65,8 +65,8 @@ class _WeatherPanelState extends State<WeatherPanel> {
         return Icons.air;
       case WeatherField.specialConditions:
         return Icons.warning_amber_outlined;
-      case WeatherField.clothes:
-        return Icons.shield_rounded;
+      //  case WeatherField.clothes:
+      //   return Icons.shield_rounded;
     }
   }
 

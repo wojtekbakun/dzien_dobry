@@ -4,13 +4,13 @@ class Weather {
   String temperature;
   String air;
   String specialConditions;
-  String clothes;
+  //String clothes;
 
   Weather({
     required this.temperature,
     required this.air,
     required this.specialConditions,
-    required this.clothes,
+    //required this.clothes,
   });
 
   factory Weather.fromJson(Map<String, dynamic> json) {
@@ -22,13 +22,13 @@ class Weather {
         'temperature': String temperature,
         'air': String air,
         'special_conditions': String specialConditions,
-        'clothes': String clothes,
+        //'clothes': String clothes,
       } =>
         Weather(
           temperature: temperature,
           air: air,
           specialConditions: specialConditions,
-          clothes: clothes,
+          //clothes: clothes,
         ),
       _ => throw const FormatException('Failed to load Weather Conditions')
     };
