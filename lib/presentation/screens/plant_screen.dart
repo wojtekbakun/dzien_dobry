@@ -38,7 +38,7 @@ class PlantScreen extends StatelessWidget {
                       plantName: plant!.name[0].toUpperCase() +
                           plant!.name.substring(1),
                       secondName: plant!.scientificName,
-                      image: MemoryImage(plant!.imageData),
+                      image: Image.network(plant!.imageLink),
                     ),
                     // Plant description card
                     const PlantDescription(

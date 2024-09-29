@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PlantImageCard extends StatelessWidget {
-  final ImageProvider image;
+  final Image image;
   final String plantName;
   final String secondName;
   const PlantImageCard(
@@ -22,7 +22,7 @@ class PlantImageCard extends StatelessWidget {
         borderRadius: MyRadius.medium,
         color: Theme.of(context).cardColor,
         image: DecorationImage(
-          image: image,
+          image: image.image,
           fit: BoxFit.cover,
         ),
       ),

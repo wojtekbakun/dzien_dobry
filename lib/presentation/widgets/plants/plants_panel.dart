@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:dzien_dobry/consts/paddings.dart';
 import 'package:dzien_dobry/consts/shapes.dart';
 import 'package:dzien_dobry/models/plant.dart';
@@ -21,7 +20,7 @@ class _PlantsPanelState extends State<PlantsPanel> {
   @override
   void initState() {
     super.initState();
-    futurePlant = PlantRepository(ApiService(baseUrl: 'http://localhost:8080'))
+    futurePlant = PlantRepository(ApiService(baseUrl: 'http://localhost:8000'))
         .getPlantData();
   }
 
@@ -99,8 +98,8 @@ class _PlantsPanelState extends State<PlantsPanel> {
                               plant: plant.data![index],
                               name: plant.data?[index].name ?? 'No name',
                               image: DecorationImage(
-                                image: Image.memory(
-                                  plant.data?[index].imageData ?? Uint8List(0),
+                                image: Image.network(
+                                  plant.data?[index].imageLink ?? '',
                                   fit: BoxFit.cover,
                                 ).image,
                               ),
@@ -112,7 +111,10 @@ class _PlantsPanelState extends State<PlantsPanel> {
             } else if (plant.hasError) {
               debugPrint(plant.toString());
               return Center(
-                child: Text('error: ${plant.error}'),
+                child: Text(
+                  'Nie udało się pobrać informacji o roślinkach, spróbuj ponownie później. \n\nTreść błędu: ${plant.error}',
+                  textAlign: TextAlign.center,
+                ),
               );
             }
             return const Center(child: CircularProgressIndicator());

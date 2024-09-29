@@ -36,7 +36,7 @@ class ApiService {
     var request = http.MultipartRequest('POST', Uri.parse('$baseUrl/plants'));
     request.files
         .add(await http.MultipartFile.fromPath('image', imageFile.path));
-    request.fields['id'] = name;
+    request.fields['name'] = name;
     request.headers.addAll(
       <String, String>{
         'Content-Type': 'multipart/form-data',

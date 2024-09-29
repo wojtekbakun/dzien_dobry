@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     futureWeatherConditions =
-        WeatherRepository(ApiService(baseUrl: 'http://localhost:8080'))
+        WeatherRepository(ApiService(baseUrl: 'http://localhost:8000'))
             .getWeather();
   }
 
@@ -56,7 +56,13 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             } else if (weatherConditions.hasError) {
               return Center(
-                child: Text('error: ${weatherConditions.error}'),
+                child: Padding(
+                  padding: MyPaddings.symmetricHorizontal,
+                  child: Text(
+                    'Nie udało się pobrać informacji o pogodzie, spróbuj ponownie później. \n\nTreść błędu: ${weatherConditions.error}',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               );
             }
             return const Center(child: CircularProgressIndicator());

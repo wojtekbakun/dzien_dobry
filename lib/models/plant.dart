@@ -1,17 +1,14 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 class Plant {
   String name;
   String scientificName;
-  Uint8List imageData;
+  String imageLink;
   Map<String, dynamic> data;
-  String toDos;
+  List toDos;
 
   Plant({
     required this.name,
     required this.scientificName,
-    required this.imageData,
+    required this.imageLink,
     required this.data,
     required this.toDos,
   });
@@ -19,16 +16,16 @@ class Plant {
   factory Plant.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {
-        'id': String name,
-        'scientificName': String scientificName,
-        'data': Map<String, dynamic> data,
-        'image': String imageData,
-        'toDo': String toDo,
+        'plant_name': String name,
+        'common_name': String scientificName,
+        'image': String imageLink,
+        'sensor_data': Map<String, dynamic> data,
+        'to_do': List toDo,
       } =>
         Plant(
           name: name,
           scientificName: scientificName,
-          imageData: base64Decode(imageData),
+          imageLink: imageLink,
           data: data,
           toDos: toDo,
         ),
