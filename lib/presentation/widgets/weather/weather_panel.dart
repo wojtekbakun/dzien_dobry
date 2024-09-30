@@ -2,6 +2,8 @@ import 'package:dzien_dobry/consts/paddings.dart';
 import 'package:dzien_dobry/models/weather.dart';
 import 'package:dzien_dobry/presentation/widgets/weather/conditions_card.dart';
 import 'package:dzien_dobry/presentation/widgets/weather/weather_dots.dart';
+import 'package:dzien_dobry/repository/weather_repository.dart';
+import 'package:dzien_dobry/service/api_service.dart';
 import 'package:flutter/material.dart';
 
 List<Map<String, dynamic>> weatherData = [
@@ -27,8 +29,9 @@ enum WeatherField {
 }
 
 class WeatherPanel extends StatefulWidget {
-  final Weather weatherConditions;
-  const WeatherPanel({super.key, required this.weatherConditions});
+  const WeatherPanel({
+    super.key,
+  });
 
   @override
   State<WeatherPanel> createState() => _WeatherPanelState();
@@ -36,7 +39,7 @@ class WeatherPanel extends StatefulWidget {
 
 class _WeatherPanelState extends State<WeatherPanel> {
   WeatherField _selectedField = WeatherField.temperature;
-
+  late Future<Weather> futureWeatherConditions;
   void _changeWeatherField() {
     setState(() {
       _selectedField = WeatherField
@@ -44,14 +47,14 @@ class _WeatherPanelState extends State<WeatherPanel> {
     });
   }
 
-  String _getCurrentWeatherValue() {
+  String _getCurrentWeatherValue(final weatherConditions) {
     switch (_selectedField) {
       case WeatherField.temperature:
-        return widget.weatherConditions.temperature;
+        return weatherConditions.temperature;
       case WeatherField.air:
-        return widget.weatherConditions.air;
+        return weatherConditions.air;
       case WeatherField.specialConditions:
-        return widget.weatherConditions.specialConditions;
+        return weatherConditions.specialConditions;
       // case WeatherField.clothes:
       //   return widget.weatherConditions.clothes;
     }
@@ -68,6 +71,14 @@ class _WeatherPanelState extends State<WeatherPanel> {
       //  case WeatherField.clothes:
       //   return Icons.shield_rounded;
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    futureWeatherConditions =
+        WeatherRepository(ApiService(baseUrl: 'http://localhost:8000'))
+            .getWeather();
   }
 
   @override
@@ -89,15 +100,43 @@ class _WeatherPanelState extends State<WeatherPanel> {
               ),
             ],
           ),
-          GestureDetector(
-            onTap: () {
-              _changeWeatherField();
-            },
-            child: ConditionsCard(
-              text: _getCurrentWeatherValue(),
-              icon: _getCurrentIcon(),
-            ),
-          )
+          FutureBuilder(
+              future: Future.delayed(const Duration(seconds: 1), () {
+                return futureWeatherConditions;
+              }),
+              builder: (context, weatherConditions) {
+                if (weatherConditions.hasData) {
+                  return Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          _changeWeatherField();
+                        },
+                        child: ConditionsCard(
+                          text: _getCurrentWeatherValue(weatherConditions.data),
+                          icon: _getCurrentIcon(),
+                        ),
+                      )
+                    ],
+                  );
+                } else if (weatherConditions.hasError) {
+                  return Center(
+                    child: Padding(
+                      padding: MyPaddings.symmetricHorizontal,
+                      child: Text(
+                        'Nie udało się pobrać informacji o pogodzie, spróbuj ponownie później. \n\nTreść błędu: ${weatherConditions.error}',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
+                }
+                return const Center(
+                  child: Padding(
+                    padding: MyPaddings.symmetricVertical,
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }),
         ],
       ),
     );

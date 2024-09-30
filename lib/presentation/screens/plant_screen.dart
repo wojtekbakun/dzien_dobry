@@ -41,16 +41,16 @@ class PlantScreen extends StatelessWidget {
                       image: Image.network(plant!.imageLink),
                     ),
                     // Plant description card
-                    const PlantDescription(
-                      description:
-                          'Pokrzywki to rośliny, które najlepiej wytępić. Warto tez podlewać je, wtedy będą rosły jak szalone.',
-                    ),
+                    // const PlantDescription(
+                    //   description:
+                    //       'Pokrzywki to rośliny, które najlepiej wytępić. Warto tez podlewać je, wtedy będą rosły jak szalone.',
+                    // ),
                   ],
                 ),
               ),
               Row(
                 children: [
-                  ToDoPanel(toDos: plant!.toDos.toString().split(',')),
+                  ToDoPanel(toDos: plant!.toDos),
                 ],
               ),
               MonitoringDeviceData(sensorData: plant!.data),

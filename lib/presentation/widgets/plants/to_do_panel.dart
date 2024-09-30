@@ -3,7 +3,7 @@ import 'package:dzien_dobry/presentation/widgets/plants/to_do_card.dart';
 import 'package:flutter/material.dart';
 
 class ToDoPanel extends StatelessWidget {
-  final List<String> toDos;
+  final List<dynamic> toDos;
   const ToDoPanel({super.key, required this.toDos});
 
   @override

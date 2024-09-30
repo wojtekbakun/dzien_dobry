@@ -28,53 +28,55 @@ class _PlantsPanelState extends State<PlantsPanel> {
   Widget build(BuildContext context) {
     return Padding(
       padding: MyPaddings.onlyTop,
-      child: FutureBuilder(
-          future: futurePlant,
-          builder: (context, plant) {
-            if (plant.hasData) {
-              return Column(
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Twoje rośliny',
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          Text(
-                            'Wszystkie są zadowolone!',
-                            style: Theme.of(context).textTheme.titleSmall,
-                          ),
-                        ],
-                      ),
-                      const Expanded(
-                        child: Row(),
-                      ),
-                      ElevatedButton(
-                        onPressed: () => InputDialog().showInputDialog(context),
-                        style: ButtonStyle(
-                          shape: WidgetStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: MyRadius.small,
-                            ),
-                          ),
-                          backgroundColor: WidgetStateProperty.all(
-                            Theme.of(context).cardColor,
-                          ),
-                        ),
-                        child: const Padding(
-                          padding: MyPaddings.smallAll,
-                          child: Icon(
-                            Icons.add,
-                          ),
-                        ),
-                      ),
-                    ],
+                  Text(
+                    'Twoje rośliny',
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  Padding(
+                  Text(
+                    'Wszystkie są zadowolone!',
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                ],
+              ),
+              const Expanded(
+                child: Row(),
+              ),
+              ElevatedButton(
+                onPressed: () => InputDialog().showInputDialog(context),
+                style: ButtonStyle(
+                  shape: WidgetStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: MyRadius.small,
+                    ),
+                  ),
+                  backgroundColor: WidgetStateProperty.all(
+                    Theme.of(context).cardColor,
+                  ),
+                ),
+                child: const Padding(
+                  padding: MyPaddings.smallAll,
+                  child: Icon(
+                    Icons.add,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          FutureBuilder(
+              future: Future.delayed(const Duration(seconds: 2), () {
+                return futurePlant;
+              }),
+              builder: (context, plant) {
+                if (plant.hasData) {
+                  return Padding(
                     padding: MyPaddings.onlyTop,
                     child: plant.data!.isEmpty
                         ? Row(
@@ -105,20 +107,25 @@ class _PlantsPanelState extends State<PlantsPanel> {
                               ),
                             ),
                           ),
+                  );
+                } else if (plant.hasError) {
+                  debugPrint(plant.toString());
+                  return Center(
+                    child: Text(
+                      'Nie udało się pobrać informacji o roślinkach, spróbuj ponownie później. \n\nTreść błędu: ${plant.error}',
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                }
+                return const Center(
+                  child: Padding(
+                    padding: MyPaddings.symmetricVertical,
+                    child: CircularProgressIndicator(),
                   ),
-                ],
-              );
-            } else if (plant.hasError) {
-              debugPrint(plant.toString());
-              return Center(
-                child: Text(
-                  'Nie udało się pobrać informacji o roślinkach, spróbuj ponownie później. \n\nTreść błędu: ${plant.error}',
-                  textAlign: TextAlign.center,
-                ),
-              );
-            }
-            return const Center(child: CircularProgressIndicator());
-          }),
+                );
+              }),
+        ],
+      ),
     );
   }
 }

@@ -13,8 +13,6 @@ class ApiService {
   Future<Weather> fetchWeather() async {
     final response = await http.get(Uri.parse('$baseUrl/weather'));
     if (response.statusCode == 200) {
-      debugPrint(
-          'response 200: ${Weather.fromJson(jsonDecode(response.body) as Map<String, dynamic>)} ');
       return Weather.fromJson(
           jsonDecode(response.body) as Map<String, dynamic>);
     } else {
