@@ -1,7 +1,6 @@
 import 'package:dzien_dobry/consts/paddings.dart';
 import 'package:dzien_dobry/models/plant.dart';
 import 'package:dzien_dobry/presentation/widgets/plants/monitoring_device_data.dart';
-import 'package:dzien_dobry/presentation/widgets/plants/plant_description.dart';
 import 'package:dzien_dobry/presentation/widgets/plants/plant_image_card.dart';
 import 'package:dzien_dobry/presentation/widgets/plants/to_do_panel.dart';
 import 'package:flutter/material.dart';

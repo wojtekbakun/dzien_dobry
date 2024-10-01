@@ -5,71 +5,106 @@ import 'package:dzien_dobry/service/api_service.dart';
 import 'package:flutter/material.dart';
 
 class InputDialog {
-  Future<void> showInputDialog(BuildContext context) async {
-    TextEditingController controller = TextEditingController();
-    File image = File('');
-
-    void chooseAndUploadImage() async {
-      var xImage = await MyImagePicker().pickImageFromGallery();
-      if (xImage != null) {
-        image = File(xImage.path);
-      }
-    }
-
+  void showInputDialog(
+    BuildContext context,
+  ) async {
     await showDialog<String>(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Nadaj roślince nazwę',
-              style: Theme.of(context).textTheme.titleSmall),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: controller,
-                decoration: InputDecoration(
-                    hintText: "Np. belmondo",
-                    hintStyle: Theme.of(context).textTheme.labelSmall),
-              ),
-              TextButton(
-                  onPressed: () {
-                    chooseAndUploadImage();
-                  },
-                  child: const Text('Dodaj fotkę roślinki')),
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Anulowanie i zamknięcie dialogu
-              },
-              child: const Text('Powrót'),
-            ),
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(
-                      controller.text); // Zwrócenie tekstu i zamknięcie dialogu
-                },
-                child: TextButton(
-                  onPressed: () async {
-                    await PlantRepository(
-                            ApiService(baseUrl: 'http://localhost:8000'))
-                        .addPlant(
-                      controller.text,
-                      image,
-                    )
-                        .whenComplete(() {
-                      if (context.mounted) {
-                        Navigator.of(context).pop();
-                        debugPrint('Plant added, dialog closed');
-                      }
-                    });
-                  },
-                  child: const Text('OK'),
-                )),
-          ],
-        );
+        return const DialogStateful();
       },
+    );
+  }
+}
+
+class DialogStateful extends StatefulWidget {
+  const DialogStateful({
+    super.key,
+  });
+
+  @override
+  State<DialogStateful> createState() => _DialogStatefulState();
+}
+
+class _DialogStatefulState extends State<DialogStateful> {
+  TextEditingController controller = TextEditingController();
+  File image = File('');
+
+  void chooseAndUploadImage() async {
+    var xImage = await MyImagePicker().pickImageFromGallery();
+    if (xImage != null) {
+      image = File(xImage.path);
+    }
+  }
+
+  bool isSending = false;
+
+  void setIsSending(bool value) {
+    setState(() {
+      isSending = value;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('Nadaj roślince nazwę',
+          style: Theme.of(context).textTheme.titleSmall),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextField(
+            controller: controller,
+            decoration: InputDecoration(
+                hintText: "Np. belmondo",
+                hintStyle: Theme.of(context).textTheme.labelSmall),
+          ),
+          TextButton(
+              onPressed: () {
+                chooseAndUploadImage();
+              },
+              iconAlignment: IconAlignment.start,
+              child: const Text('Dodaj fotkę roślinki')),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            isSending
+                ? null
+                : Navigator.of(context)
+                    .pop(); // Anulowanie i zamknięcie dialogu
+          },
+          child: isSending ? const SizedBox() : const Text('Powrót'),
+        ),
+        TextButton(
+          onPressed: () async {
+            setIsSending(true);
+            await PlantRepository(ApiService(baseUrl: 'http://localhost:8000'))
+                .addPlant(
+              controller.text,
+              image,
+            )
+                .then(
+              (value) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Roślinka dodana!'),
+                    ),
+                  );
+                  setIsSending(false);
+                  Navigator.of(context).pop();
+                }
+              },
+            );
+          },
+          child:
+              isSending ? const CircularProgressIndicator() : const Text('OK'),
+        ),
+      ],
     );
   }
 }

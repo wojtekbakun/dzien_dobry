@@ -50,7 +50,9 @@ class _PlantsPanelState extends State<PlantsPanel> {
                 child: Row(),
               ),
               ElevatedButton(
-                onPressed: () => InputDialog().showInputDialog(context),
+                onPressed: () {
+                  InputDialog().showInputDialog(context);
+                },
                 style: ButtonStyle(
                   shape: WidgetStateProperty.all(
                     RoundedRectangleBorder(
