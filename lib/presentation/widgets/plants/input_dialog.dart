@@ -29,11 +29,17 @@ class DialogStateful extends StatefulWidget {
 class _DialogStatefulState extends State<DialogStateful> {
   TextEditingController controller = TextEditingController();
   File image = File('');
+  bool isTextInController = false;
+  bool isImageChosen = false;
 
   void chooseAndUploadImage() async {
     var xImage = await MyImagePicker().pickImageFromGallery();
     if (xImage != null) {
       image = File(xImage.path);
+
+      setState(() {
+        isImageChosen = true;
+      });
     }
   }
 
@@ -48,8 +54,15 @@ class _DialogStatefulState extends State<DialogStateful> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Nadaj roślince nazwę',
-          style: Theme.of(context).textTheme.titleSmall),
+      title: Row(
+        children: [
+          Text(
+            'Nadaj roślince nazwę',
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+          isTextInController ? Icon(Icons.done) : const SizedBox(),
+        ],
+      ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -57,6 +70,13 @@ class _DialogStatefulState extends State<DialogStateful> {
         children: [
           TextField(
             controller: controller,
+            onChanged: (value) => controller.text.isNotEmpty
+                ? setState(() {
+                    isTextInController = true;
+                  })
+                : setState(() {
+                    isTextInController = false;
+                  }),
             decoration: InputDecoration(
                 hintText: "Np. belmondo",
                 hintStyle: Theme.of(context).textTheme.labelSmall),
@@ -66,7 +86,12 @@ class _DialogStatefulState extends State<DialogStateful> {
                 chooseAndUploadImage();
               },
               iconAlignment: IconAlignment.start,
-              child: const Text('Dodaj fotkę roślinki')),
+              child: Row(
+                children: [
+                  const Text('Dodaj fotkę roślinki'),
+                  isImageChosen ? const Icon(Icons.done) : const SizedBox(),
+                ],
+              )),
         ],
       ),
       actions: <Widget>[
@@ -80,27 +105,30 @@ class _DialogStatefulState extends State<DialogStateful> {
           child: isSending ? const SizedBox() : const Text('Powrót'),
         ),
         TextButton(
-          onPressed: () async {
-            setIsSending(true);
-            await PlantRepository(ApiService(baseUrl: 'http://localhost:8000'))
-                .addPlant(
-              controller.text,
-              image,
-            )
-                .then(
-              (value) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Roślinka dodana!'),
-                    ),
+          onPressed: isImageChosen && isTextInController
+              ? () async {
+                  setIsSending(true);
+                  await PlantRepository(
+                          ApiService(baseUrl: 'http://localhost:8000'))
+                      .addPlant(
+                    controller.text,
+                    image,
+                  )
+                      .then(
+                    (value) {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Roślinka dodana!'),
+                          ),
+                        );
+                        setIsSending(false);
+                        Navigator.of(context).pop();
+                      }
+                    },
                   );
-                  setIsSending(false);
-                  Navigator.of(context).pop();
                 }
-              },
-            );
-          },
+              : null,
           child:
               isSending ? const CircularProgressIndicator() : const Text('OK'),
         ),
